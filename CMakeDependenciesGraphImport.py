@@ -20,6 +20,21 @@ cmakeParametersParamName = "CMake parameters"
 
 cmakeProjectDotFileName = "cmake_project" 
 
+def executeCommand(command, cwd, stderrfile, pluginProgress):
+	# execute the process
+	p = subprocess.Popen(command, cwd=cwd, shell=True, stdout=subprocess.PIPE, stderr=open(stderrfile, 'wb'))
+	# add some execution feedback trough the plugin progress
+	while True:
+		line = p.stdout.readline().decode('utf-8').replace('\r\n', '').replace('\n', '')
+		if line == '' and p.poll() != None:
+			break
+		if pluginProgress:
+			pluginProgress.setComment(line)
+	
+	# wait for the process to complete
+	retval = p.wait()
+	return retval
+
 class CMakeDependenciesGraphImport(tlp.ImportModule):
 	def __init__(self, context):
 		tlp.ImportModule.__init__(self, context)
@@ -65,18 +80,15 @@ By default CMake executable path is assumed to be in your PATH environment varia
 		# create a temporary file in which we will redirect stderr
 		stderrfile = tmpdir + '/stderr.txt'
 		
-		# execute the cmake process
-		p = subprocess.Popen(command, cwd=tmpdir, shell=True, stdout=subprocess.PIPE, stderr=open(stderrfile, 'wb'))
-		# add some execution feedback trough the plugin progress
-		while True:
-			line = p.stdout.readline().decode('utf-8').replace('\r\n', '').replace('\n', '')
-			if line == '' and p.poll() != None:
-				break
-			if self.pluginProgress:
-				self.pluginProgress.setComment(line)
+		# execute the CMake project configuration	
+		retval = executeCommand(command, tmpdir, stderrfile, self.pluginProgress)	
 		
-		# wait for the process to complete
-		retval = p.wait()	
+		# Special case for MinGW Makefiles as it often fails the first time it is executed
+		# due to the presence of sh.exe in the PATH environemt variable.
+		# It fails the first time CMake is executed but not for the subsequent calls,
+		# so relaunch the CMake configuration
+		if retval != 0 and 'MinGW Makefiles' in self.dataSet[cmakeParametersParamName]:
+			retval = executeCommand(command, tmpdir, stderrfile, self.pluginProgress)
 		
 		# something went wrong
 		if retval != 0:
