@@ -68,10 +68,12 @@ By default CMake executable path is assumed to be in your PATH environment varia
 		# execute the cmake process
 		p = subprocess.Popen(command, cwd=tmpdir, shell=True, stdout=subprocess.PIPE, stderr=open(stderrfile, 'wb'))
 		# add some execution feedback trough the plugin progress
-		for line in p.stdout.readlines():
-			lineStr = line.decode('utf-8')[:-1]
+		while True:
+			line = p.stdout.readline().decode('utf-8').replace('\r\n', '').replace('\n', '')
+			if line == '' and p.poll() != None:
+				break
 			if self.pluginProgress:
-				self.pluginProgress.setComment(lineStr)
+				self.pluginProgress.setComment(line)
 		
 		# wait for the process to complete
 		retval = p.wait()	
