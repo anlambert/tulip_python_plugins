@@ -131,4 +131,5 @@ By default CMake executable path is assumed to be in your PATH environment varia
 
 # The line below does the magic to register the plugin to the plugin database
 # and updates the GUI to make it accessible through the menus.
-tulipplugins.registerPluginOfGroup("CMakeDependenciesGraphImport", "CMake dependencies graph", "Antoine Lambert", "24/11/2015", "", "1.0", "Misc")
+tulipplugins.registerPluginOfGroup("CMakeDependenciesGraphImport", "CMake dependencies graph", "Antoine Lambert", "24/11/2015", \
+"Import the targets dependencies graph of a CMake project", "1.0", "Misc")
