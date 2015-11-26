@@ -8,14 +8,13 @@ They can be called programatically or through the Tulip software graphical user 
 
 The minimum version of Tulip required to use these plugins is 4.8. 
 You can install it trough dedicated installers for [Windows](http://sourceforge.net/projects/auber/files/tulip/tulip-4.8.0/tulip-4.8.0_x64_setup.exe/download)
-and [MacOS](http://sourceforge.net/projects/auber/files/tulip/tulip-4.8.0/Tulip-4.8.0.dmg/download) or compile it from source if you are using Linux (you can g
-et the code source from the tulip subversion repository hosted on [sourceforge](https://sourceforge.net/p/auber/code/HEAD/tree/) or from its [github](https://github.com/anlambert/tulip) mirror.
+and [MacOS](http://sourceforge.net/projects/auber/files/tulip/tulip-4.8.0/Tulip-4.8.0.dmg/download) or compile it from source if you are using Linux (you can get the code source from the tulip subversion repository hosted on [sourceforge](https://sourceforge.net/p/auber/code/HEAD/tree/) or from its [github](https://github.com/anlambert/tulip) mirror.
 
 To use the plugins, you can either:
 
   * load them manually through the Python Plugin editor included in the Tulip software
   * copy the repository content to the following location : `<home_directory>/.Tulip-4.8/plugins/python`, 
-  the plugins will be automatically loaded when Tulip starts.
+  the plugins will be automatically loaded when Tulip starts
 
   
 ## License
