@@ -4,6 +4,8 @@
 
 from tulip import *
 import tulipplugins
+import tulipPluginUtils
+
 import json
 import os
 
@@ -76,8 +78,11 @@ class NpmPackageDependenciesGraphImport(tlp.ImportModule):
 		# The method must return a boolean indicating if the
 		# graph has been successfully imported.
 		
-		npmPackageDir = self.dataSet[npmPackageDirParamName]
+		# Check that we are using at least Tulip 4.8
+		if not tulipPluginUtils.tulipVersionCheck(4, 8, 0, self.pluginProgress):
+			return False	
 		
+		npmPackageDir = self.dataSet[npmPackageDirParamName]
 		# Check if the directory contains a npm package first
 		rootPackageJson = npmPackageDir + '/package.json'
 		if not os.path.exists(rootPackageJson):

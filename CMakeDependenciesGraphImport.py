@@ -8,6 +8,8 @@
 
 from tulip import *
 import tulipplugins
+import tulipPluginUtils
+
 import tempfile
 import subprocess
 import os
@@ -51,25 +53,21 @@ By default CMake executable path is assumed to be in your PATH environment varia
 		# This method is called to import a new graph.
 		# An empty graph to populate is accessible through the "graph" class attribute
 		# (see documentation of class tlp.Graph).
-
+                
 		# The parameters provided by the user are stored in a Tulip DataSet 
 		# and can be accessed through the "dataSet" class attribute
 		# (see documentation of class tlp.DataSet).
-	
+                
 		# The method must return a boolean indicating if the
 		# graph has been successfully imported.
-	
+		
 		# Check that we are using at least Tulip 4.8
-		tulipVersionNumbers = list(map(lambda s: int(s), tlp.getTulipRelease().split('.')))	
-		tulipVersionOk = tulipVersionNumbers[0] >= 4 and tulipVersionNumbers[1] >= 8	
-		if not tulipVersionOk:
-			if self.pluginProgress:
-				self.pluginProgress.setError('Error : Minimum Tulip version to execute that plugin is 4.8.0')
+		if not tulipPluginUtils.tulipVersionCheck(4, 8, 0, self.pluginProgress):
 			return False
-	
+                
 		# get the CMake project source directory path
 		cmakeProjectSourceDir = self.dataSet[cmakeProjectSourceDirParamName]
-		
+
 		# create a temporary directory that we will use as a CMake binary directory
 		tmpdir = tempfile.mkdtemp()
 
@@ -89,7 +87,7 @@ By default CMake executable path is assumed to be in your PATH environment varia
 		# so relaunch the CMake configuration
 		if retval != 0 and 'MinGW Makefiles' in self.dataSet[cmakeParametersParamName]:
 			retval = executeCommand(command, tmpdir, stderrfile, self.pluginProgress)
-		
+			
 		# something went wrong
 		if retval != 0:
 			# read stderr file and transmit error string to the plugin progress
