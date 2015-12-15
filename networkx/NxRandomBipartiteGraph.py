@@ -35,7 +35,7 @@ class NxRandomBipartiteGraph(tlp.ImportModule):
 		m = self.dataSet["m"]
 		p = self.dataSet["p"]
 		
-		bp_graph = tulipnx.nx_bipartite_generators.bipartite_random_graph(n, m, p)
+		bp_graph = tulipnx.bipartite_random_graph(n, m, p)
 		
 		tulipnx.nxGraphToTlpGraph(bp_graph, graph)	
 		

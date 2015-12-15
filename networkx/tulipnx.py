@@ -9,7 +9,13 @@ try:
 	
 	import networkx as nx
 	import networkx.generators.atlas as nx_atlas
-	import networkx.generators.bipartite as nx_bipartite_generators
+	try:
+		import networkx.generators.bipartite as nx_bipartite_generators
+		bipartite_random_graph = nx_bipartite_generators.bipartite_random_graph
+		
+	except:
+		bipartite_random_graph = nx.bipartite.generators.random_graph
+		
 	  
 	nxOk = True
 	
