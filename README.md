@@ -1,5 +1,7 @@
 # Collections of plugins written in Python for the Tulip graph analysis and visualization framework
 
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/anlambert/tulip_python_plugins/)](https://archive.softwareheritage.org/browse/origin/https://github.com/anlambert/tulip_python_plugins/)
+
 That repository contains a set of Python plugins for the [Tulip framework](https://tulip.labri.fr), dedicated to the analysis and
 visualization of large graphs. 
 
